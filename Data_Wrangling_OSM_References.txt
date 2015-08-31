@@ -1,0 +1,28 @@
+#Udacity Videos and Instructor Notes
+
+# OpenStreepMap
+https://www.openstreetmap.org
+http://wiki.openstreetmap.org/wiki/Main_Page
+
+# OverPass API
+http://overpass-api.de/command_line.html
+http://wiki.openstreetmap.org/wiki/Overpass_API
+
+# IPython Markdown
+http://stackoverflow.com/questions/14901245/how-to-style-json-block-in-github-wiki
+http://nestacms.com/docs/creating-content/markdown-cheat-sheet
+
+# IPython code
+http://stackoverflow.com/questions/25698448/how-to-embed-html-into-ipython-output
+
+# MongoDB
+http://docs.mongodb.org/master/reference/operator/query/regex/
+http://docs.mongodb.org/manual/core/aggregation-introduction/
+
+# github cheatsheet
+https://training.github.com/kit/downloads/github-git-cheat-sheet.pdf
+
+# Misc
+https://www.mapbox.com/blog/nyc-buildings-openstreetmap/
+http://wiki.openstreetmap.org/wiki/USGS_GNIS
+http://wiki.openstreetmap.org/wiki/TIGER
