@@ -196,7 +196,7 @@ I tried downloading JC data from openstreetmap export option, but it failed. The
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="kn">import</span> <span class="nn">requests</span>
@@ -233,7 +233,7 @@ I tried downloading JC data from openstreetmap export option, but it failed. The
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[85]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="kn">from</span> <span class="nn">IPython.core.display</span> <span class="k">import</span> <span class="n">HTML</span>
@@ -248,7 +248,7 @@ I tried downloading JC data from openstreetmap export option, but it failed. The
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[85]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[1]:</div>
 
 <div class="output_html rendered_html output_subarea output_execute_result">
 <iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://www.openstreetmap.org/export/embed.html?bbox=-74.25212860107422%2C40.64730356252251%2C-73.98914337158203%2C40.809131953785965&amp;layer=mapnik" style="border: 1px solid black"></iframe><br/><small><a href="http://www.openstreetmap.org/#map=12/40.7283/-74.1206">View Larger Map</a></small>
@@ -265,14 +265,16 @@ I tried downloading JC data from openstreetmap export option, but it failed. The
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="2.-Problems-Encountered-in-the-Map">2. Problems Encountered in the Map<a class="anchor-link" href="#2.-Problems-Encountered-in-the-Map">&#182;</a></h2><h3 id="Map-Parsing">Map Parsing<a class="anchor-link" href="#Map-Parsing">&#182;</a></h3><p>I will parse osm file using ElementTree to find out different tags present in the file. Keeping the size of the file in the mind, I will use SAX parsing.</p>
+<h2 id="2.-Problems-Encountered-in-the-Map">2. Problems Encountered in the Map<a class="anchor-link" href="#2.-Problems-Encountered-in-the-Map">&#182;</a></h2><p>In this section, I will parse osm map file. Talk about different problem with data and fixing it.
+Finally, preparing the data for Mongodb load.</p>
+<h3 id="Map-Parsing">Map Parsing<a class="anchor-link" href="#Map-Parsing">&#182;</a></h3><p>I will parse osm file using ElementTree to find out different tags present in the file. Keeping the size of the file in the mind, I will use SAX parsing.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="kn">import</span> <span class="nn">xml.etree.cElementTree</span> <span class="k">as</span> <span class="nn">ET</span>
@@ -336,7 +338,7 @@ There are 2000510 tags present in the file. These tags are name-value pair, to d
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="kn">import</span> <span class="nn">re</span>
@@ -406,7 +408,7 @@ I will be grouping by "addr:" under "address" key in data model. lower_colon wil
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="k">def</span> <span class="nf">get_user</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
@@ -462,7 +464,7 @@ In first problem finding exercise I will try to find such inconsistencies in str
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[68]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">defaultdict</span>
@@ -501,240 +503,57 @@ In first problem finding exercise I will try to find such inconsistencies in str
     <span class="k">return</span> <span class="n">street_types</span>
 
 <span class="n">street_types</span> <span class="o">=</span> <span class="n">audit</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">street_types</span><span class="p">)</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>{&apos;10024&apos;: {&apos;West 80th Street NYC 10024&apos;},
- &apos;1801&apos;: {&apos;505th 8th Avenue Suite 1801&apos;},
- &apos;1st&apos;: {&apos;1st&apos;},
- &apos;27th&apos;: {&apos;W 27th&apos;},
- &apos;29th&apos;: {&apos;29th&apos;},
- &apos;2N&apos;: {&apos;400th West 20th St., Suite 2N&apos;},
- &apos;3&apos;: {&apos;Hanover Square #3&apos;},
- &apos;300&apos;: {&apos;Ste 300&apos;},
- &apos;306&apos;: {&apos;West 30th Street Suite 306&apos;},
- &apos;41st&apos;: {&apos;41st&apos;},
- &apos;42nd&apos;: {&apos;West 42nd&apos;},
- &apos;4B&apos;: {&apos;Union Avenue 4B&apos;},
- &apos;500&apos;: {&apos;Main St., Suite 500&apos;},
- &apos;633&apos;: {&apos;633&apos;},
- &apos;861&apos;: {&apos;861&apos;},
- &apos;A&apos;: {&apos;Avenue A&apos;},
- &apos;Americas&apos;: {&apos;Avenue Of The Americas&apos;,
-              &apos;Avenue of Americas&apos;,
-              &apos;Avenue of the Americas&apos;},
- &apos;Atrium&apos;: {&apos;Broadway Atrium&apos;},
- &apos;Ave&apos;: {&apos; Westminster Ave&apos;,
-         &apos;4th Ave&apos;,
-         &apos;5th Ave&apos;,
-         &apos;64th St and 5th Ave&apos;,
-         &apos;6th Ave&apos;,
-         &apos;Hudson Ave&apos;,
-         &apos;Norman Ave&apos;,
-         &apos;Park Ave&apos;,
-         &apos;Third Ave&apos;,
-         &apos;Willow Ave&apos;},
- &apos;Ave.&apos;: {&apos;Washington Ave.&apos;, &apos;Springfield Ave.&apos;},
- &apos;Avene&apos;: {&apos;Nostrand Avene&apos;, &apos;Madison Avene&apos;},
- &apos;Avenue,#392&apos;: {&apos;Columbus Avenue,#392&apos;},
- &apos;B&apos;: {&apos;Avenue B&apos;},
- &apos;Blv.&apos;: {&apos;John F. Kennedy Blv.&apos;},
- &apos;Blvd&apos;: {&apos;Marin Blvd&apos;, &apos;Queens Blvd&apos;},
- &apos;Bowery&apos;: {&apos;Bowery&apos;, &apos;The Bowery&apos;},
- &apos;Broadway&apos;: {&apos;East Broadway&apos;, &apos;Broadway&apos;, &apos;West Broadway&apos;},
- &apos;Bushwick&apos;: {&apos;Bushwick&apos;},
- &apos;C&apos;: {&apos;Avenue C&apos;},
- &apos;Center&apos;: {&apos;Gotham Center&apos;,
-            &apos;Metrotech Center&apos;,
-            &apos;World Financial Center&apos;,
-            &apos;World Trade Center&apos;},
- &apos;Circle&apos;: {&apos;Columbus Circle&apos;,
-            &apos;Fort Hill Circle&apos;,
-            &apos;Hell Gate Circle&apos;,
-            &apos;Laguardia Circle&apos;,
-            &apos;Mc Ginty Circle&apos;,
-            &apos;Thelonious Monk Circle&apos;,
-            &apos;Tompkins Circle&apos;},
- &apos;Clinton&apos;: {&apos;Clinton&apos;},
- &apos;Crescent&apos;: {&apos;Mt Olivet Crescent&apos;},
- &apos;Ct.&apos;: {&apos;Riverside Ct.&apos;},
- &apos;Ctr&apos;: {&apos;Harborside Fin Ctr&apos;},
- &apos;D&apos;: {&apos;Avenue D&apos;},
- &apos;East&apos;: {&apos;Anthony J Falco Square East&apos;,
-          &apos;Cadman Plaza East&apos;,
-          &apos;Fdr Drive Service Road East&apos;,
-          &apos;Gouverneur Slip East&apos;,
-          &apos;Gramercy Park East&apos;,
-          &apos;Marginal St East&apos;,
-          &apos;Plaza Street East&apos;,
-          &apos;Union Square East&apos;,
-          &apos;Washington Square East&apos;,
-          &apos;Williamsburg Street East&apos;},
- &apos;Extension&apos;: {&apos;Eastern Parkway Extension&apos;, &apos;Flatbush Avenue Extension&apos;},
- &apos;Finest&apos;: {&apos;Avenue Of The Finest&apos;},
- &apos;Floor&apos;: {&apos;Broadway 21st Floor&apos;},
- &apos;Floor)&apos;: {&apos;Manhattan Avenue (2nd Floor)&apos;},
- &apos;Fulton&apos;: {&apos;Old Fulton&apos;},
- &apos;Gratta&apos;: {&apos;Gratta&apos;},
- &apos;Heights&apos;: {&apos;Columbia Heights&apos;},
- &apos;Highway&apos;: {&apos;McCarter Highway&apos;, &apos;Kings Highway&apos;},
- &apos;Hudson&apos;: {&apos;Castle Point on Hudson&apos;},
- &apos;Island&apos;: {&apos;Governors Island&apos;, &apos;Randalls Island&apos;, &apos;Wards Island&apos;},
- &apos;J&apos;: {&apos;Avenue J&apos;},
- &apos;K&apos;: {&apos;Avenue K&apos;},
- &apos;L&apos;: {&apos;Avenue L&apos;},
- &apos;Landing&apos;: {&apos;Bay Street Landing&apos;},
- &apos;Loop&apos;: {&apos;Charles Gay Loop&apos;,
-          &apos;Margo Loop&apos;,
-          &apos;Sunken Garden Loop&apos;,
-          &apos;Wards Meadow Loop&apos;},
- &apos;M&apos;: {&apos;Avenue M&apos;},
- &apos;Macdougal&apos;: {&apos;Macdougal&apos;},
- &apos;Mall&apos;: {&apos;Centre Mall&apos;},
- &apos;MetroTech&apos;: {&apos;MetroTech&apos;},
- &apos;Mews&apos;: {&apos;Washington Mews&apos;, &apos;Greenwich Mews&apos;},
- &apos;NY&apos;: {&apos;54th W 39th St New York, NY&apos;},
- &apos;North&apos;: {&apos;Astoria Boulevard North&apos;,
-           &apos;Brooklyn Queens Expressway West Service Road North&apos;,
-           &apos;Gramercy Park North&apos;,
-           &apos;Queens Plaza North&apos;,
-           &apos;Saint Austins Place North&apos;,
-           &apos;Washington Square North&apos;},
- &apos;Oval&apos;: {&apos;Stuyvesant Oval&apos;, &apos;Grand Army Plaza Oval&apos;},
- &apos;PH&apos;: {&apos;Harrison Street Suite PH&apos;},
- &apos;Park&apos;: {&apos;FDR Four Freedoms Park&apos;,
-          &apos;Fort Hill Park&apos;,
-          &apos;Gramercy Park&apos;,
-          &apos;Washington Park&apos;},
- &apos;Piers&apos;: {&apos;Northside Piers&apos;},
- &apos;Plz&apos;: {&apos;University Plz&apos;},
- &apos;Rd&apos;: {&apos;43rd Rd&apos;},
- &apos;Remsen&apos;: {&apos;Remsen&apos;},
- &apos;Rico&apos;: {&apos;Avenue Of Puerto Rico&apos;},
- &apos;Roadbed&apos;: {&apos;4th Avenue Southbound Roadbed&apos;,
-             &apos;Delancey Street Eb Roadbed&apos;,
-             &apos;Delancey Street Wb Roadbed&apos;,
-             &apos;Kings Highway Westbound Roadbed&apos;,
-             &apos;Ocean Parkway Southbound Roadbed&apos;},
- &apos;Row&apos;: {&apos;Park Row&apos;},
- &apos;S&apos;: {&apos;Central Park S&apos;},
- &apos;ST&apos;: {&apos;N 9th ST&apos;},
- &apos;Slip&apos;: {&apos;Catherine Slip&apos;,
-          &apos;Coenties Slip&apos;,
-          &apos;Old Slip&apos;,
-          &apos;Peck Slip&apos;,
-          &apos;Pike Slip&apos;,
-          &apos;Rutgers Slip&apos;},
- &apos;South&apos;: {&apos;7th Avenue South&apos;,
-           &apos;Astoria Boulevard South&apos;,
-           &apos;Astoria Park South&apos;,
-           &apos;Brooklyn Queens Expressway West Service Road South&apos;,
-           &apos;Central Park South&apos;,
-           &apos;Craig Road South&apos;,
-           &apos;Delancey St South&apos;,
-           &apos;Gramercy Park South&apos;,
-           &apos;Hoyt Avenue South&apos;,
-           &apos;Mc Guinness Boulevard South&apos;,
-           &apos;Park Avenue South&apos;,
-           &apos;Queens Plaza South&apos;,
-           &apos;Saint Austins Place South&apos;,
-           &apos;Sutton Place South&apos;,
-           &apos;Washington Square South&apos;},
- &apos;Southwest&apos;: {&apos;Prospect Park Southwest&apos;},
- &apos;Springfield&apos;: {&apos;Springfield&apos;},
- &apos;St&apos;: {&apos;1st St&apos;,
-        &apos;2nd St&apos;,
-        &apos;330 E 84th St&apos;,
-        &apos;362nd Grand St&apos;,
-        &apos;3rd St&apos;,
-        &apos;40 W 94th St&apos;,
-        &apos;4th St&apos;,
-        &apos;6th St&apos;,
-        &apos;7th St&apos;,
-        &apos;8th St&apos;,
-        &apos;9th St&apos;,
-        &apos;Adams St&apos;,
-        &apos;Bloomfield St&apos;,
-        &apos;Clinton St&apos;,
-        &apos;Court St&apos;,
-        &apos;Garden St&apos;,
-        &apos;Grand St&apos;,
-        &apos;Hudson St&apos;,
-        &apos;Jackson St&apos;,
-        &apos;Jefferson St&apos;,
-        &apos;Madison St&apos;,
-        &apos;Monroe St&apos;,
-        &apos;N 7th St&apos;,
-        &apos;Newark St&apos;,
-        &apos;River St&apos;,
-        &apos;Smith St &amp; Bergen St&apos;,
-        &apos;Washington St&apos;,
-        &apos;West 32nd St&apos;},
- &apos;St.&apos;: {&apos;11th St.&apos;,
-         &apos;9th St.&apos;,
-         &apos;Devoe St.&apos;,
-         &apos;E. 54th St.&apos;,
-         &apos;East 73rd St.&apos;,
-         &apos;East 86th St.&apos;,
-         &apos;Henry St.&apos;,
-         &apos;South 4th St.&apos;,
-         &apos;Warren St.&apos;,
-         &apos;Washington St.&apos;,
-         &apos;West 44th St.&apos;},
- &apos;Steet&apos;: {&apos;West 8th Steet&apos;},
- &apos;Streeet&apos;: {&apos;Johnson Streeet&apos;},
- &apos;Vanderbilt&apos;: {&apos;Vanderbilt&apos;},
- &apos;Village&apos;: {&apos;Washington Square Village&apos;},
- &apos;Warren&apos;: {&apos;Warren&apos;},
- &apos;West&apos;: {&apos;Cadman Plaza West&apos;,
-          &apos;Central Park West&apos;,
-          &apos;Fdr Drive Service Road West&apos;,
-          &apos;Gouverneur Slip West&apos;,
-          &apos;Gramercy Park West&apos;,
-          &apos;Marginal Street West&apos;,
-          &apos;Plaza St West&apos;,
-          &apos;Prospect Park West&apos;,
-          &apos;Union Square West&apos;,
-          &apos;Washington Square West&apos;,
-          &apos;Williamsburg Street West&apos;},
- &apos;Willoughby&apos;: {&apos;Willoughby&apos;},
- &apos;Woodside&apos;: {&apos;Woodside&apos;},
- &apos;ave&apos;: {&apos;6th ave&apos;, &apos;5th ave&apos;},
- &apos;avenue&apos;: {&apos;2nd avenue&apos;, &apos;Bedford avenue&apos;, &apos;Utica avenue&apos;},
- &apos;bus_stop&apos;: {&apos;bus_stop&apos;},
- &apos;south&apos;: {&apos;Us Highway 1 and 9 south&apos;},
- &apos;st&apos;: {&apos;South 4th st&apos;, &apos;W 35th st&apos;, &apos;Union st&apos;},
- &apos;street&apos;: {&apos;5th street&apos;,
-            &apos;Columbia street&apos;,
-            &apos;E 45th street&apos;,
-            &apos;East 5th street&apos;,
-            &apos;Hudson street&apos;,
-            &apos;Lafayette street&apos;,
-            &apos;Mott street&apos;,
-            &apos;Rivington street&apos;,
-            &apos;Steinway street&apos;,
-            &apos;Union street&apos;,
-            &apos;W. 44th street&apos;,
-            &apos;West 51st street&apos;,
-            &apos;West 57th street&apos;,
-            &apos;west 55th street&apos;}}
-</pre>
 </div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
 </div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Below examples of above code snippet output</p>
+<div class="highlight"><pre><span class="s2">&quot;Ave&quot;</span> <span class="p">{</span><span class="s2">&quot; Westminster Ave&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;4th Ave&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;5th Ave&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;64th St and 5th Ave&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;6th Ave&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;Hudson Ave&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;Norman Ave&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;Park Ave&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;Third Ave&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;Willow Ave&quot;</span><span class="p">}</span>
+ <span class="s2">&quot;Ave&quot;</span> <span class="p">{</span><span class="s2">&quot;Springfield Ave.&quot;</span><span class="p">,</span> <span class="s2">&quot;Washington Ave.&quot;</span><span class="p">}</span>
+ <span class="s2">&quot;Avene&quot;</span><span class="o">:</span> <span class="p">{</span><span class="s2">&quot;Nostrand Avene&quot;</span><span class="p">,</span> <span class="s2">&quot;Madison Avene&quot;</span><span class="p">},</span>
+ <span class="s2">&quot;Blv.&quot;</span><span class="o">:</span> <span class="p">{</span><span class="s2">&quot;John F. Kennedy Blv.&quot;</span><span class="p">},</span>
+ <span class="s2">&quot;Blvd&quot;</span><span class="o">:</span> <span class="p">{</span><span class="s2">&quot;Marin Blvd&quot;</span><span class="p">,</span> <span class="s2">&quot;Queens Blvd&quot;</span><span class="p">},</span>
+ <span class="s2">&quot;Park&quot;</span><span class="o">:</span> <span class="p">{</span><span class="s2">&quot;FDR Four Freedoms Park&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;Fort Hill Park&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;Gramercy Park&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;Washington Park&quot;</span><span class="p">},</span>
+ <span class="s2">&quot;Piers&quot;</span><span class="o">:</span> <span class="p">{</span><span class="s2">&quot;Northside Piers&quot;</span><span class="p">},</span>
+ <span class="s2">&quot;Plz&quot;</span><span class="o">:</span> <span class="p">{</span><span class="s2">&quot;University Plz&quot;</span><span class="p">},</span>
+ <span class="s2">&quot;Rd&quot;</span><span class="o">:</span> <span class="p">{</span><span class="s2">&quot;43rd Rd&quot;</span><span class="p">},</span>
+ <span class="s2">&quot;St.&quot;</span><span class="o">:</span> <span class="p">{</span><span class="s2">&quot;11th St.&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;9th St.&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;Devoe St.&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;E. 54th St.&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;East 73rd St.&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;East 86th St.&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;Henry St.&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;South 4th St.&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;Warren St.&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;Washington St.&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;West 44th St.&quot;</span><span class="p">},</span>
+ <span class="s2">&quot;Steet&quot;</span><span class="o">:</span> <span class="p">{</span><span class="s2">&quot;West 8th Steet&quot;</span><span class="p">},</span>
+ <span class="s2">&quot;Streeet&quot;</span><span class="o">:</span> <span class="p">{</span><span class="s2">&quot;Johnson Streeet&quot;</span><span class="p">}</span>
+</pre></div>
 
 </div>
 </div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
@@ -750,6 +569,87 @@ By resolving these inconsistencies I will make my data more uniform.</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Non-Uniformity-in-City-Names">Non-Uniformity in City Names<a class="anchor-link" href="#Non-Uniformity-in-City-Names">&#182;</a></h3><p>Due to crowd-sourced entries, city names in map data is not conistent. NYC is consist of many big boroughs due to that many places I noticed city name is replaces with neighbourhood names and borough names. Some places city names are misspelled or abbreviated. During my initial load to MongoDB I found below examples:</p>
+<p>{'Manhattan NYC', 'Brooklyn, New York', 'new York', 'Queens, NY', 'NY', 'Manhattan', 'New York NY', 'Waterbury', 'Bowery Bay',
+ 'NEW YORK CITY'}
+ Above are only few samples, there are few more . Now, I will reload the data and before loading I will cleanup city names to make it inconsistent as possible.</p>
+<p>Below mapping dictionary is used to map incosistent, incorrect city names to uniform city name.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[57]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">city_mapping</span> <span class="o">=</span> <span class="p">{</span> <span class="s">&#39;New York&#39;</span> <span class="p">:</span> <span class="s">&#39;New York City&#39;</span><span class="p">,</span>
+                <span class="s">&#39;Brooklyn&#39;</span> <span class="p">:</span> <span class="s">&#39;New York City&#39;</span><span class="p">,</span>
+                <span class="s">&#39;Astoria&#39;</span> <span class="p">:</span> <span class="s">&#39;New York City&#39;</span><span class="p">,</span>
+                <span class="s">&#39;Long Island City&#39;</span> <span class="p">:</span> <span class="s">&#39;New York City&#39;</span><span class="p">,</span>
+                <span class="s">&#39;Sunnyside&#39;</span> <span class="p">:</span> <span class="s">&#39;New York City&#39;</span><span class="p">,</span>
+                <span class="s">&#39;Staten Island&#39;</span> <span class="p">:</span> <span class="s">&#39;New York City&#39;</span><span class="p">,</span>
+                <span class="s">&#39;Woodside&#39;</span> <span class="p">:</span> <span class="s">&#39;New York City&#39;</span><span class="p">,</span>
+                <span class="s">&#39;brooklyn&#39;</span> <span class="p">:</span> <span class="s">&#39;New York City&#39;</span><span class="p">,</span>
+                <span class="s">&#39;New York, NY&#39;</span> <span class="p">:</span> <span class="s">&#39;New York City&#39;</span><span class="p">,</span>
+                <span class="s">&#39;Queens&#39;</span> <span class="p">:</span> <span class="s">&#39;New York City&#39;</span><span class="p">,</span>
+                <span class="s">&#39;Brooklyn, NY&#39;</span> <span class="p">:</span> <span class="s">&#39;New York City&#39;</span><span class="p">,</span>
+                <span class="s">&#39;Ridgewood&#39;</span> <span class="p">:</span> <span class="s">&#39;New York City&#39;</span><span class="p">,</span>
+                <span class="s">&#39;NEW YORK CITY&#39;</span> <span class="p">:</span> <span class="s">&#39;New York City&#39;</span><span class="p">,</span>
+                <span class="s">&#39;New York NY&#39;</span> <span class="p">:</span> <span class="s">&#39;New York City&#39;</span><span class="p">,</span>
+                <span class="s">&#39;Bowery Bay, NY&#39;</span> <span class="p">:</span> <span class="s">&#39;New York City&#39;</span><span class="p">,</span>
+                <span class="s">&#39;Roosevelt Island&#39;</span> <span class="p">:</span> <span class="s">&#39;New York City&#39;</span><span class="p">,</span>
+                <span class="s">&#39;new york&#39;</span> <span class="p">:</span> <span class="s">&#39;New York City&#39;</span><span class="p">,</span>
+                <span class="s">&#39;new York&#39;</span> <span class="p">:</span> <span class="s">&#39;New York City&#39;</span><span class="p">,</span>
+                <span class="s">&#39;Queens, NY&#39;</span> <span class="p">:</span> <span class="s">&#39;New York City&#39;</span><span class="p">,</span>
+                <span class="s">&#39;NY&#39;</span> <span class="p">:</span> <span class="s">&#39;New York City&#39;</span><span class="p">,</span>
+                <span class="s">&#39;Manhattan&#39;</span> <span class="p">:</span> <span class="s">&#39;New York City&#39;</span><span class="p">,</span>
+                <span class="s">&#39;Middle Village&#39;</span> <span class="p">:</span> <span class="s">&#39;New York City&#39;</span><span class="p">,</span>
+                <span class="s">&#39;Manhattan NYC&#39;</span> <span class="p">:</span> <span class="s">&#39;New York City&#39;</span><span class="p">,</span>
+                <span class="s">&#39;Brooklyn, New York&#39;</span> <span class="p">:</span> <span class="s">&#39;New York City&#39;</span><span class="p">,</span>
+                <span class="s">&#39;end of pier&#39;</span> <span class="p">:</span> <span class="s">&#39;New York City&#39;</span> <span class="p">}</span>
+
+<span class="c"># function to verify city name tag</span>
+<span class="k">def</span> <span class="nf">is_city_name</span><span class="p">(</span><span class="n">elem</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">elem</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&#39;k&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;addr:city&quot;</span><span class="p">)</span>
+
+<span class="c"># Below function will accept city name, after looking up in city_mapping dict, it will return consistent name</span>
+<span class="k">def</span> <span class="nf">update_city</span><span class="p">(</span><span class="n">city_name</span><span class="p">,</span> <span class="n">city_mapping</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">city_name</span> <span class="ow">in</span> <span class="n">city_mapping</span><span class="p">:</span>
+        <span class="n">updated_city_name</span> <span class="o">=</span> <span class="n">city_mapping</span><span class="p">[</span><span class="n">city_name</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">updated_city_name</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">city_name</span>
+
+<span class="c">#  Test update_city for city name from map data</span>
+<span class="n">new_city_name</span> <span class="o">=</span> <span class="n">update_city</span><span class="p">(</span><span class="s">&quot;Manhattan&quot;</span><span class="p">,</span> <span class="n">city_mapping</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">new_city_name</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>New York City
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
@@ -832,7 +732,7 @@ I will define mapping between inconsistent and better street types in mapping di
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[73]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="c"># dictionary to store mapping between inconsistent and better street types</span>
@@ -867,12 +767,17 @@ I will define mapping between inconsistent and better street types in mapping di
         
     <span class="k">return</span> <span class="n">name</span>
 
-<span class="c"># Running test to make sure street names are getting updated as expected</span>
+<span class="c"># Running test to make sure street names are getting updated as expected (for few street types only)</span>
 <span class="k">for</span> <span class="n">st_type</span><span class="p">,</span> <span class="n">ways</span> <span class="ow">in</span> <span class="n">street_types</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="k">if</span> <span class="n">st_type</span> <span class="ow">in</span> <span class="n">mapping</span><span class="p">:</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">ways</span><span class="p">:</span>
             <span class="n">better_name</span> <span class="o">=</span> <span class="n">update_name</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">mapping</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s">&quot;=&gt;&quot;</span><span class="p">,</span> <span class="n">better_name</span><span class="p">)</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+                <span class="k">break</span>
+            
         
 </pre></div>
 
@@ -886,82 +791,39 @@ I will define mapping between inconsistent and better street types in mapping di
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>9th St. =&gt; 9th Street
-West 44th St. =&gt; West 44th Street
+<pre>Bloomfield St =&gt; Bloomfield Street
+6th St =&gt; 6th Street
+Madison St =&gt; Madison Street
+9th St =&gt; 9th Street
+2nd St =&gt; 2nd Street
+N 9th ST =&gt; N 9th Street
+West 8th Steet =&gt; West 8th Street
+Johnson Streeet =&gt; Johnson Street
+6th Ave =&gt; 6th Avenue
+64th St and 5th Ave =&gt; 64th St and 5th Avenue
+Park Ave =&gt; Park Avenue
+ Westminster Ave =&gt;  Westminster Avenue
+Willow Ave =&gt; Willow Avenue
+Steinway street =&gt; Steinway Street
+Mott street =&gt; Mott Street
+Hudson street =&gt; Hudson Street
+west 55th street =&gt; west 55th Street
+E 45th street =&gt; E 45th Street
 E. 54th St. =&gt; E. 54th Street
 East 73rd St. =&gt; East 73rd Street
-East 86th St. =&gt; East 86th Street
-Devoe St. =&gt; Devoe Street
-Henry St. =&gt; Henry Street
-South 4th St. =&gt; South 4th Street
-Washington St. =&gt; Washington Street
+9th St. =&gt; 9th Street
 11th St. =&gt; 11th Street
-Warren St. =&gt; Warren Street
-South 4th st =&gt; South 4th Street
-W 35th st =&gt; W 35th Street
-Union st =&gt; Union Street
-Johnson Streeet =&gt; Johnson Street
-3rd St =&gt; 3rd Street
-Bloomfield St =&gt; Bloomfield Street
-6th St =&gt; 6th Street
-Hudson St =&gt; Hudson Street
-1st St =&gt; 1st Street
-40 W 94th St =&gt; 40 W 94th Street
-Adams St =&gt; Adams Street
-Grand St =&gt; Grand Street
-Smith St &amp; Bergen St =&gt; Smith Street &amp; Bergen Street
-8th St =&gt; 8th Street
-2nd St =&gt; 2nd Street
-Garden St =&gt; Garden Street
-Jackson St =&gt; Jackson Street
-Washington St =&gt; Washington Street
-West 32nd St =&gt; West 32nd Street
-7th St =&gt; 7th Street
-Court St =&gt; Court Street
-Monroe St =&gt; Monroe Street
-362nd Grand St =&gt; 362nd Grand Street
-Jefferson St =&gt; Jefferson Street
-9th St =&gt; 9th Street
-Madison St =&gt; Madison Street
-330 E 84th St =&gt; 330 E 84th Street
-N 7th St =&gt; N 7th Street
-4th St =&gt; 4th Street
-Newark St =&gt; Newark Street
-River St =&gt; River Street
-Clinton St =&gt; Clinton Street
-64th St and 5th Ave =&gt; 64th St and 5th Avenue
-5th Ave =&gt; 5th Avenue
- Westminster Ave =&gt;  Westminster Avenue
-Hudson Ave =&gt; Hudson Avenue
-Park Ave =&gt; Park Avenue
-4th Ave =&gt; 4th Avenue
-6th Ave =&gt; 6th Avenue
-Third Ave =&gt; Third Avenue
-Willow Ave =&gt; Willow Avenue
-Norman Ave =&gt; Norman Avenue
-Union street =&gt; Union Street
-W. 44th street =&gt; W. 44th Street
-West 57th street =&gt; West 57th Street
-5th street =&gt; 5th Street
-west 55th street =&gt; west 55th Street
-Steinway street =&gt; Steinway Street
-Columbia street =&gt; Columbia Street
-West 51st street =&gt; West 51st Street
-Rivington street =&gt; Rivington Street
-Hudson street =&gt; Hudson Street
-E 45th street =&gt; E 45th Street
-Lafayette street =&gt; Lafayette Street
-East 5th street =&gt; East 5th Street
-Mott street =&gt; Mott Street
-2nd avenue =&gt; 2nd Avenue
+Devoe St. =&gt; Devoe Street
+University Plz =&gt; University Plaza
+43rd Rd =&gt; 43rd Road
 Bedford avenue =&gt; Bedford Avenue
 Utica avenue =&gt; Utica Avenue
-43rd Rd =&gt; 43rd Road
-West 8th Steet =&gt; West 8th Street
-6th ave =&gt; 6th Avenue
+2nd avenue =&gt; 2nd Avenue
 5th ave =&gt; 5th Avenue
-University Plz =&gt; University Plaza
-N 9th ST =&gt; N 9th Street
+6th ave =&gt; 6th Avenue
+Union st =&gt; Union Street
+South 4th st =&gt; South 4th Street
+W 35th st =&gt; W 35th Street
 </pre>
 </div>
 </div>
@@ -982,7 +844,7 @@ N 9th ST =&gt; N 9th Street
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[58]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="c"># list contains all elements which will be included to &quot;created&quot; key</span>
@@ -1034,11 +896,14 @@ N 9th ST =&gt; N 9th Street
                     <span class="k">if</span> <span class="n">is_street_name</span><span class="p">(</span><span class="n">tag</span><span class="p">):</span>
                         <span class="n">better_name</span> <span class="o">=</span> <span class="n">update_name</span><span class="p">(</span><span class="n">tag</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&quot;v&quot;</span><span class="p">],</span> <span class="n">mapping</span><span class="p">)</span>
                         <span class="n">node</span><span class="p">[</span><span class="s">&quot;address&quot;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">better_name</span>
+                    <span class="k">elif</span> <span class="n">is_city_name</span><span class="p">(</span><span class="n">tag</span><span class="p">):</span>
+                        <span class="n">uniform_city_name</span> <span class="o">=</span> <span class="n">update_city</span><span class="p">(</span><span class="n">tag</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&quot;v&quot;</span><span class="p">],</span> <span class="n">city_mapping</span><span class="p">)</span>
+                        <span class="n">node</span><span class="p">[</span><span class="s">&quot;address&quot;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">uniform_city_name</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">node</span><span class="p">[</span><span class="s">&quot;address&quot;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">tag</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&quot;v&quot;</span><span class="p">]</span>
                         
                 <span class="c"># store all other &quot;tag&quot; as normal name-value pair</span>
-                <span class="k">elif</span> <span class="n">lower_colon</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">tag</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&quot;k&quot;</span><span class="p">])</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">tag</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&quot;k&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;addr:&quot;</span><span class="p">):</span>
+                <span class="k">else</span><span class="p">:</span>
                     <span class="n">node</span><span class="p">[</span><span class="n">tag</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&quot;k&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">tag</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s">&quot;v&quot;</span><span class="p">]</span>
         
         <span class="c"># to store nd elements under &quot;node_refs&quot; list for ways</span>
@@ -1062,7 +927,7 @@ N 9th ST =&gt; N 9th Street
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[59]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="kn">import</span> <span class="nn">json</span>
@@ -1093,7 +958,7 @@ N 9th ST =&gt; N 9th Street
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[60]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="c"># Call process map function, passing jersey_city.osm file as input.</span>
@@ -1129,7 +994,7 @@ Then run some MongoDB queries to get more information regarding data.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="kn">import</span> <span class="nn">os</span>
@@ -1158,7 +1023,7 @@ Then run some MongoDB queries to get more information regarding data.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[61]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="n">output_filename</span> <span class="o">=</span> <span class="n">filename</span> <span class="o">+</span><span class="s">&quot;.json&quot;</span>
@@ -1176,7 +1041,7 @@ Then run some MongoDB queries to get more information regarding data.</p>
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Size of the created JSON file - jersey_city.osm.json: 486.374754 MB
+<pre>Size of the created JSON file - jersey_city.osm.json: 501.609482 MB
 </pre>
 </div>
 </div>
@@ -1198,7 +1063,7 @@ MongoDB instance is running locally in my machine. I will use pyMongo to connect
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="kn">from</span> <span class="nn">pymongo</span> <span class="k">import</span> <span class="n">MongoClient</span>
@@ -1223,31 +1088,30 @@ db : database name -&gt; osm
 collection : collection name -&gt; jersey_city
 file : json format file -&gt; jersey_city.osm.json</p>
 <p>Below is snippet output of my import:</p>
-<div class="highlight"><pre>C:<span class="se">\P</span>rogram Files<span class="se">\M</span>ongoDB<span class="se">\S</span>erver<span class="se">\3</span>.0<span class="se">\b</span>in&gt;mongoimport --db <span class="s2">&quot;osm&quot;</span> --collection <span class="s2">&quot;jersey_city&quot;</span> --file <span class="s2">&quot;C:\Users\Prashant\Dropbox\Udacity\Data_Analyst_ND\jersey_city.osm.json&quot;</span>
-2015-08-30T18:02:21.207-0400    connected to: localhost
-2015-08-30T18:02:24.177-0400    <span class="o">[</span>........................<span class="o">]</span> osm.jersey_city      16.2 MB/463.8 MB <span class="o">(</span>3.5%<span class="o">)</span>
-2015-08-30T18:02:27.151-0400    <span class="o">[</span><span class="c">#.......................] osm.jersey_city      36.4 MB/463.8 MB (7.8%)</span>
-2015-08-30T18:02:30.151-0400    <span class="o">[</span><span class="c">##......................] osm.jersey_city      56.8 MB/463.8 MB (12.2%)</span>
-2015-08-30T18:02:33.153-0400    <span class="o">[</span><span class="c">####....................] osm.jersey_city      78.1 MB/463.8 MB (16.8%)</span>
-2015-08-30T18:02:36.151-0400    <span class="o">[</span><span class="c">#####...................] osm.jersey_city      99.6 MB/463.8 MB (21.5%)</span>
-2015-08-30T18:02:39.151-0400    <span class="o">[</span><span class="c">######..................] osm.jersey_city      118.1 MB/463.8 MB (25.5%)</span>
-2015-08-30T18:02:42.152-0400    <span class="o">[</span><span class="c">#######.................] osm.jersey_city      136.4 MB/463.8 MB (29.4%)</span>
-2015-08-30T18:02:45.151-0400    <span class="o">[</span><span class="c">########................] osm.jersey_city      156.5 MB/463.8 MB (33.7%)</span>
-2015-08-30T18:02:48.151-0400    <span class="o">[</span><span class="c">#########...............] osm.jersey_city      176.7 MB/463.8 MB (38.1%)</span>
-2015-08-30T18:02:51.154-0400    <span class="o">[</span><span class="c">##########..............] osm.jersey_city      194.9 MB/463.8 MB (42.0%)</span>
-2015-08-30T18:02:54.151-0400    <span class="o">[</span><span class="c">##########..............] osm.jersey_city      212.5 MB/463.8 MB (45.8%)</span>
-2015-08-30T18:02:57.154-0400    <span class="o">[</span><span class="c">############............] osm.jersey_city      232.8 MB/463.8 MB (50.2%)</span>
-2015-08-30T18:03:00.156-0400    <span class="o">[</span><span class="c">#############...........] osm.jersey_city      253.0 MB/463.8 MB (54.5%)</span>
-2015-08-30T18:03:03.151-0400    <span class="o">[</span><span class="c">##############..........] osm.jersey_city      273.1 MB/463.8 MB (58.9%)</span>
-2015-08-30T18:03:06.151-0400    <span class="o">[</span><span class="c">###############.........] osm.jersey_city      291.6 MB/463.8 MB (62.9%)</span>
-2015-08-30T18:03:09.152-0400    <span class="o">[</span><span class="c">################........] osm.jersey_city      311.8 MB/463.8 MB (67.2%)</span>
-2015-08-30T18:03:12.151-0400    <span class="o">[</span><span class="c">#################.......] osm.jersey_city      331.1 MB/463.8 MB (71.4%)</span>
-2015-08-30T18:03:15.151-0400    <span class="o">[</span><span class="c">##################......] osm.jersey_city      350.5 MB/463.8 MB (75.6%)</span>
-2015-08-30T18:03:18.157-0400    <span class="o">[</span><span class="c">###################.....] osm.jersey_city      370.4 MB/463.8 MB (79.9%)</span>
-2015-08-30T18:03:21.153-0400    <span class="o">[</span><span class="c">####################....] osm.jersey_city      394.5 MB/463.8 MB (85.0%)</span>
-2015-08-30T18:03:24.151-0400    <span class="o">[</span><span class="c">#####################...] osm.jersey_city      418.4 MB/463.8 MB (90.2%)</span>
-2015-08-30T18:03:27.152-0400    <span class="o">[</span><span class="c">#######################.] osm.jersey_city      444.8 MB/463.8 MB (95.9%)</span>
-2015-08-30T18:03:29.561-0400    imported <span class="m">2033581</span> documents
+<div class="highlight"><pre>C:<span class="se">\P</span>rogram Files<span class="se">\M</span>ongoDB<span class="se">\S</span>erver<span class="se">\3</span>.0<span class="se">\b</span>in&gt;mongoimport --db <span class="s2">&quot;osm&quot;</span> --collection <span class="s2">&quot;jersey_city&quot;</span> --file <span class="s2">&quot;C:\Users\Prashant\Dropbox\Udacity\Data_Analyst_ND\Data_Wrangling_with_MongoDB\jersey_city.osm.json&quot;</span>
+2015-09-07T17:12:03.073-0400    connected to: localhost
+2015-09-07T17:12:06.071-0400    <span class="o">[</span><span class="c">#.......................] osm.jersey_city      20.7 MB/478.3 MB (4.3%)</span>
+2015-09-07T17:12:09.066-0400    <span class="o">[</span><span class="c">##......................] osm.jersey_city      41.5 MB/478.3 MB (8.7%)</span>
+2015-09-07T17:12:12.066-0400    <span class="o">[</span><span class="c">###.....................] osm.jersey_city      62.2 MB/478.3 MB (13.0%)</span>
+2015-09-07T17:12:15.067-0400    <span class="o">[</span><span class="c">####....................] osm.jersey_city      83.4 MB/478.3 MB (17.4%)</span>
+2015-09-07T17:12:18.066-0400    <span class="o">[</span><span class="c">#####...................] osm.jersey_city      105.3 MB/478.3 MB (22.0%)</span>
+2015-09-07T17:12:21.066-0400    <span class="o">[</span><span class="c">######..................] osm.jersey_city      125.3 MB/478.3 MB (26.2%)</span>
+2015-09-07T17:12:24.067-0400    <span class="o">[</span><span class="c">#######.................] osm.jersey_city      143.9 MB/478.3 MB (30.1%)</span>
+2015-09-07T17:12:27.066-0400    <span class="o">[</span><span class="c">########................] osm.jersey_city      164.3 MB/478.3 MB (34.3%)</span>
+2015-09-07T17:12:30.066-0400    <span class="o">[</span><span class="c">#########...............] osm.jersey_city      185.8 MB/478.3 MB (38.8%)</span>
+2015-09-07T17:12:33.067-0400    <span class="o">[</span><span class="c">##########..............] osm.jersey_city      207.0 MB/478.3 MB (43.3%)</span>
+2015-09-07T17:12:36.067-0400    <span class="o">[</span><span class="c">###########.............] osm.jersey_city      228.2 MB/478.3 MB (47.7%)</span>
+2015-09-07T17:12:39.066-0400    <span class="o">[</span><span class="c">############............] osm.jersey_city      249.9 MB/478.3 MB (52.2%)</span>
+2015-09-07T17:12:42.067-0400    <span class="o">[</span><span class="c">#############...........] osm.jersey_city      270.7 MB/478.3 MB (56.6%)</span>
+2015-09-07T17:12:45.067-0400    <span class="o">[</span><span class="c">##############..........] osm.jersey_city      291.7 MB/478.3 MB (61.0%)</span>
+2015-09-07T17:12:48.066-0400    <span class="o">[</span><span class="c">###############.........] osm.jersey_city      311.5 MB/478.3 MB (65.1%)</span>
+2015-09-07T17:12:51.066-0400    <span class="o">[</span><span class="c">################........] osm.jersey_city      332.2 MB/478.3 MB (69.4%)</span>
+2015-09-07T17:12:54.067-0400    <span class="o">[</span><span class="c">#################.......] osm.jersey_city      354.2 MB/478.3 MB (74.0%)</span>
+2015-09-07T17:12:57.066-0400    <span class="o">[</span><span class="c">###################.....] osm.jersey_city      380.6 MB/478.3 MB (79.6%)</span>
+2015-09-07T17:13:00.066-0400    <span class="o">[</span><span class="c">####################....] osm.jersey_city      406.9 MB/478.3 MB (85.1%)</span>
+2015-09-07T17:13:03.068-0400    <span class="o">[</span><span class="c">#####################...] osm.jersey_city      433.9 MB/478.3 MB (90.7%)</span>
+2015-09-07T17:13:06.066-0400    <span class="o">[</span><span class="c">#######################.] osm.jersey_city      461.3 MB/478.3 MB (96.4%)</span>
+2015-09-07T17:13:08.038-0400    imported <span class="m">2033581</span> documents
 </pre></div>
 
 </div>
@@ -1265,7 +1129,7 @@ file : json format file -&gt; jersey_city.osm.json</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="prompt input_prompt">In&nbsp;[64]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="n">db</span><span class="o">.</span><span class="n">jersey_city</span><span class="o">.</span><span class="n">find</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
@@ -1279,7 +1143,7 @@ file : json format file -&gt; jersey_city.osm.json</p>
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[28]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[64]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1303,7 +1167,7 @@ file : json format file -&gt; jersey_city.osm.json</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="n">db</span><span class="o">.</span><span class="n">jersey_city</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s">&quot;type&quot;</span> <span class="p">:</span> <span class="s">&quot;node&quot;</span><span class="p">})</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
@@ -1317,11 +1181,11 @@ file : json format file -&gt; jersey_city.osm.json</p>
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[30]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[37]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>1721029</pre>
+<pre>1720878</pre>
 </div>
 
 </div>
@@ -1341,7 +1205,7 @@ file : json format file -&gt; jersey_city.osm.json</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="n">db</span><span class="o">.</span><span class="n">jersey_city</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s">&quot;type&quot;</span> <span class="p">:</span> <span class="s">&quot;way&quot;</span><span class="p">})</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
@@ -1355,11 +1219,11 @@ file : json format file -&gt; jersey_city.osm.json</p>
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[31]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[38]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>312552</pre>
+<pre>312508</pre>
 </div>
 
 </div>
@@ -1379,7 +1243,7 @@ file : json format file -&gt; jersey_city.osm.json</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[34]:</div>
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="nb">len</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">jersey_city</span><span class="o">.</span><span class="n">distinct</span><span class="p">(</span><span class="s">&quot;created.user&quot;</span><span class="p">))</span>
@@ -1393,7 +1257,7 @@ file : json format file -&gt; jersey_city.osm.json</p>
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[34]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[39]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1417,7 +1281,7 @@ file : json format file -&gt; jersey_city.osm.json</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[46]:</div>
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="n">db</span><span class="o">.</span><span class="n">jersey_city</span><span class="o">.</span><span class="n">aggregate</span><span class="p">([{</span> <span class="s">&quot;$group&quot;</span> <span class="p">:</span> <span class="p">{</span><span class="s">&quot;_id&quot;</span> <span class="p">:</span> <span class="s">&quot;$created.user&quot;</span><span class="p">,</span> <span class="s">&quot;count&quot;</span> <span class="p">:</span> <span class="p">{</span><span class="s">&quot;$sum&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">}}},</span>
@@ -1434,7 +1298,7 @@ file : json format file -&gt; jersey_city.osm.json</p>
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[46]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[40]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1456,18 +1320,19 @@ file : json format file -&gt; jersey_city.osm.json</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Different-Zip-Codes-Counts">Different Zip Codes Counts<a class="anchor-link" href="#Different-Zip-Codes-Counts">&#182;</a></h4>
+<h4 id="Top-5-Zip-Codes-Counts">Top 5 Zip Codes Counts<a class="anchor-link" href="#Top-5-Zip-Codes-Counts">&#182;</a></h4>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="prompt input_prompt">In&nbsp;[67]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="n">db</span><span class="o">.</span><span class="n">jersey_city</span><span class="o">.</span><span class="n">aggregate</span><span class="p">([{</span> <span class="s">&quot;$group&quot;</span> <span class="p">:</span> <span class="p">{</span><span class="s">&quot;_id&quot;</span> <span class="p">:</span> <span class="s">&quot;$address.postcode&quot;</span><span class="p">,</span> <span class="s">&quot;count&quot;</span> <span class="p">:</span> <span class="p">{</span><span class="s">&quot;$sum&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">}}},</span> 
                           <span class="p">{</span><span class="s">&quot;$match&quot;</span> <span class="p">:</span> <span class="p">{</span><span class="s">&quot;_id&quot;</span> <span class="p">:</span> <span class="p">{</span><span class="s">&quot;$ne&quot;</span> <span class="p">:</span> <span class="k">None</span><span class="p">}}},</span>
-                          <span class="p">{</span><span class="s">&quot;$sort&quot;</span> <span class="p">:</span> <span class="p">{</span><span class="s">&quot;count&quot;</span> <span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}}</span>
+                          <span class="p">{</span><span class="s">&quot;$sort&quot;</span> <span class="p">:</span> <span class="p">{</span><span class="s">&quot;count&quot;</span> <span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}},</span>
+                          <span class="p">{</span><span class="s">&quot;$limit&quot;</span> <span class="p">:</span> <span class="mi">5</span><span class="p">}</span>
                          <span class="p">])[</span><span class="s">&quot;result&quot;</span><span class="p">]</span>
 </pre></div>
 
@@ -1479,7 +1344,7 @@ file : json format file -&gt; jersey_city.osm.json</p>
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[45]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[67]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1487,154 +1352,7 @@ file : json format file -&gt; jersey_city.osm.json</p>
  {&apos;_id&apos;: &apos;11215&apos;, &apos;count&apos;: 9533},
  {&apos;_id&apos;: &apos;11221&apos;, &apos;count&apos;: 9402},
  {&apos;_id&apos;: &apos;11236&apos;, &apos;count&apos;: 8797},
- {&apos;_id&apos;: &apos;11220&apos;, &apos;count&apos;: 8612},
- {&apos;_id&apos;: &apos;11377&apos;, &apos;count&apos;: 8374},
- {&apos;_id&apos;: &apos;11385&apos;, &apos;count&apos;: 8282},
- {&apos;_id&apos;: &apos;11233&apos;, &apos;count&apos;: 8015},
- {&apos;_id&apos;: &apos;11218&apos;, &apos;count&apos;: 6880},
- {&apos;_id&apos;: &apos;11212&apos;, &apos;count&apos;: 6751},
- {&apos;_id&apos;: &apos;11216&apos;, &apos;count&apos;: 6381},
- {&apos;_id&apos;: &apos;11211&apos;, &apos;count&apos;: 6339},
- {&apos;_id&apos;: &apos;11226&apos;, &apos;count&apos;: 6140},
- {&apos;_id&apos;: &apos;11222&apos;, &apos;count&apos;: 6102},
- {&apos;_id&apos;: &apos;11105&apos;, &apos;count&apos;: 5949},
- {&apos;_id&apos;: &apos;11378&apos;, &apos;count&apos;: 5675},
- {&apos;_id&apos;: &apos;11206&apos;, &apos;count&apos;: 5467},
- {&apos;_id&apos;: &apos;11213&apos;, &apos;count&apos;: 5315},
- {&apos;_id&apos;: &apos;11231&apos;, &apos;count&apos;: 4881},
- {&apos;_id&apos;: &apos;11103&apos;, &apos;count&apos;: 4761},
- {&apos;_id&apos;: &apos;11238&apos;, &apos;count&apos;: 4691},
- {&apos;_id&apos;: &apos;11237&apos;, &apos;count&apos;: 4565},
- {&apos;_id&apos;: &apos;11217&apos;, &apos;count&apos;: 4509},
- {&apos;_id&apos;: &apos;11207&apos;, &apos;count&apos;: 4505},
- {&apos;_id&apos;: &apos;11101&apos;, &apos;count&apos;: 4148},
- {&apos;_id&apos;: &apos;11225&apos;, &apos;count&apos;: 4099},
- {&apos;_id&apos;: &apos;11219&apos;, &apos;count&apos;: 3946},
- {&apos;_id&apos;: &apos;11201&apos;, &apos;count&apos;: 3944},
- {&apos;_id&apos;: &apos;10301&apos;, &apos;count&apos;: 3674},
- {&apos;_id&apos;: &apos;11106&apos;, &apos;count&apos;: 3592},
- {&apos;_id&apos;: &apos;11205&apos;, &apos;count&apos;: 3243},
- {&apos;_id&apos;: &apos;11232&apos;, &apos;count&apos;: 3214},
- {&apos;_id&apos;: &apos;11102&apos;, &apos;count&apos;: 3067},
- {&apos;_id&apos;: &apos;10011&apos;, &apos;count&apos;: 2772},
- {&apos;_id&apos;: &apos;10014&apos;, &apos;count&apos;: 2522},
- {&apos;_id&apos;: &apos;10003&apos;, &apos;count&apos;: 2482},
- {&apos;_id&apos;: &apos;10002&apos;, &apos;count&apos;: 2421},
- {&apos;_id&apos;: &apos;10024&apos;, &apos;count&apos;: 2404},
- {&apos;_id&apos;: &apos;10013&apos;, &apos;count&apos;: 2125},
- {&apos;_id&apos;: &apos;10310&apos;, &apos;count&apos;: 2043},
- {&apos;_id&apos;: &apos;11104&apos;, &apos;count&apos;: 2042},
- {&apos;_id&apos;: &apos;11249&apos;, &apos;count&apos;: 2005},
- {&apos;_id&apos;: &apos;10303&apos;, &apos;count&apos;: 1888},
- {&apos;_id&apos;: &apos;10016&apos;, &apos;count&apos;: 1872},
- {&apos;_id&apos;: &apos;11210&apos;, &apos;count&apos;: 1844},
- {&apos;_id&apos;: &apos;10019&apos;, &apos;count&apos;: 1772},
- {&apos;_id&apos;: &apos;10021&apos;, &apos;count&apos;: 1708},
- {&apos;_id&apos;: &apos;10065&apos;, &apos;count&apos;: 1705},
- {&apos;_id&apos;: &apos;10128&apos;, &apos;count&apos;: 1688},
- {&apos;_id&apos;: &apos;10023&apos;, &apos;count&apos;: 1687},
- {&apos;_id&apos;: &apos;10028&apos;, &apos;count&apos;: 1684},
- {&apos;_id&apos;: &apos;10029&apos;, &apos;count&apos;: 1680},
- {&apos;_id&apos;: &apos;10009&apos;, &apos;count&apos;: 1629},
- {&apos;_id&apos;: &apos;10001&apos;, &apos;count&apos;: 1609},
- {&apos;_id&apos;: &apos;10022&apos;, &apos;count&apos;: 1564},
- {&apos;_id&apos;: &apos;10012&apos;, &apos;count&apos;: 1521},
- {&apos;_id&apos;: &apos;10036&apos;, &apos;count&apos;: 1395},
- {&apos;_id&apos;: &apos;10302&apos;, &apos;count&apos;: 1290},
- {&apos;_id&apos;: &apos;11370&apos;, &apos;count&apos;: 1018},
- {&apos;_id&apos;: &apos;10018&apos;, &apos;count&apos;: 935},
- {&apos;_id&apos;: &apos;10025&apos;, &apos;count&apos;: 906},
- {&apos;_id&apos;: &apos;11209&apos;, &apos;count&apos;: 905},
- {&apos;_id&apos;: &apos;10017&apos;, &apos;count&apos;: 902},
- {&apos;_id&apos;: &apos;10010&apos;, &apos;count&apos;: 879},
- {&apos;_id&apos;: &apos;10075&apos;, &apos;count&apos;: 797},
- {&apos;_id&apos;: &apos;11234&apos;, &apos;count&apos;: 705},
- {&apos;_id&apos;: &apos;10038&apos;, &apos;count&apos;: 629},
- {&apos;_id&apos;: &apos;11379&apos;, &apos;count&apos;: 532},
- {&apos;_id&apos;: &apos;10004&apos;, &apos;count&apos;: 372},
- {&apos;_id&apos;: &apos;10007&apos;, &apos;count&apos;: 341},
- {&apos;_id&apos;: &apos;11372&apos;, &apos;count&apos;: 242},
- {&apos;_id&apos;: &apos;11230&apos;, &apos;count&apos;: 197},
- {&apos;_id&apos;: &apos;10005&apos;, &apos;count&apos;: 196},
- {&apos;_id&apos;: &apos;10035&apos;, &apos;count&apos;: 167},
- {&apos;_id&apos;: &apos;10006&apos;, &apos;count&apos;: 125},
- {&apos;_id&apos;: &apos;07302&apos;, &apos;count&apos;: 61},
- {&apos;_id&apos;: &apos;10020&apos;, &apos;count&apos;: 55},
- {&apos;_id&apos;: &apos;10044&apos;, &apos;count&apos;: 55},
- {&apos;_id&apos;: &apos;11204&apos;, &apos;count&apos;: 52},
- {&apos;_id&apos;: &apos;10280&apos;, &apos;count&apos;: 37},
- {&apos;_id&apos;: &apos;10282&apos;, &apos;count&apos;: 35},
- {&apos;_id&apos;: &apos;10069&apos;, &apos;count&apos;: 32},
- {&apos;_id&apos;: &apos;10304&apos;, &apos;count&apos;: 22},
- {&apos;_id&apos;: &apos;07306&apos;, &apos;count&apos;: 19},
- {&apos;_id&apos;: &apos;07030&apos;, &apos;count&apos;: 17},
- {&apos;_id&apos;: &apos;11109&apos;, &apos;count&apos;: 14},
- {&apos;_id&apos;: &apos;07050&apos;, &apos;count&apos;: 11},
- {&apos;_id&apos;: &apos;07087&apos;, &apos;count&apos;: 11},
- {&apos;_id&apos;: &apos;10281&apos;, &apos;count&apos;: 9},
- {&apos;_id&apos;: &apos;10111&apos;, &apos;count&apos;: 6},
- {&apos;_id&apos;: &apos;07111&apos;, &apos;count&apos;: 6},
- {&apos;_id&apos;: &apos;07086&apos;, &apos;count&apos;: 6},
- {&apos;_id&apos;: &apos;07104&apos;, &apos;count&apos;: 5},
- {&apos;_id&apos;: &apos;10048&apos;, &apos;count&apos;: 4},
- {&apos;_id&apos;: &apos;07202&apos;, &apos;count&apos;: 4},
- {&apos;_id&apos;: &apos;10055&apos;, &apos;count&apos;: 3},
- {&apos;_id&apos;: &apos;07003&apos;, &apos;count&apos;: 3},
- {&apos;_id&apos;: &apos;07208&apos;, &apos;count&apos;: 3},
- {&apos;_id&apos;: &apos;10154&apos;, &apos;count&apos;: 3},
- {&apos;_id&apos;: &apos;10152&apos;, &apos;count&apos;: 3},
- {&apos;_id&apos;: &apos;11251&apos;, &apos;count&apos;: 3},
- {&apos;_id&apos;: &apos;07201&apos;, &apos;count&apos;: 3},
- {&apos;_id&apos;: &apos;07093&apos;, &apos;count&apos;: 3},
- {&apos;_id&apos;: &apos;07114&apos;, &apos;count&apos;: 2},
- {&apos;_id&apos;: &apos;10275&apos;, &apos;count&apos;: 2},
- {&apos;_id&apos;: &apos;10153&apos;, &apos;count&apos;: 2},
- {&apos;_id&apos;: &apos;NY 10075&apos;, &apos;count&apos;: 2},
- {&apos;_id&apos;: &apos;07311&apos;, &apos;count&apos;: 2},
- {&apos;_id&apos;: &apos;07102&apos;, &apos;count&apos;: 2},
- {&apos;_id&apos;: &apos;07105&apos;, &apos;count&apos;: 2},
- {&apos;_id&apos;: &apos;07304&apos;, &apos;count&apos;: 2},
- {&apos;_id&apos;: &apos;07047&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;10002-1013&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;New York, NY 10065&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;83&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;10018-3883&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;11224&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;10001-2062&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;11232-2400&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;11231;11230&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;11201;11231&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;11215-9993&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;07032&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;07107&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;07206&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;07031&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;11361&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;NY 11106&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;07305-9997&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;10012-3332&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;07310&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;10121&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;10169&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;10016-0122&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;10174&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;NJ 07105&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;NY 10111&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;NY 10002&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;11201-2483&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;07036&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;NY 11201&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;10123&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;07096&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;07030-5774&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos; 07310&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;07002&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;10168&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;10155&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;10018-4527&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;07207&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;NY 11221&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;10011-6832&apos;, &apos;count&apos;: 1}]</pre>
+ {&apos;_id&apos;: &apos;11220&apos;, &apos;count&apos;: 8612}]</pre>
 </div>
 
 </div>
@@ -1655,7 +1373,7 @@ file : json format file -&gt; jersey_city.osm.json</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[50]:</div>
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="c"># Get counts of Only list of Jersey City Zip Codes.</span>
@@ -1673,7 +1391,7 @@ file : json format file -&gt; jersey_city.osm.json</p>
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[50]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[42]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1695,19 +1413,19 @@ file : json format file -&gt; jersey_city.osm.json</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="All-Cities">All Cities<a class="anchor-link" href="#All-Cities">&#182;</a></h4><p>All cities in my selected area of interest</p>
-
+<h4 id="Top-5-City-Names">Top 5 City Names<a class="anchor-link" href="#Top-5-City-Names">&#182;</a></h4>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[53]:</div>
+<div class="prompt input_prompt">In&nbsp;[66]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="n">db</span><span class="o">.</span><span class="n">jersey_city</span><span class="o">.</span><span class="n">aggregate</span><span class="p">([{</span><span class="s">&quot;$group&quot;</span> <span class="p">:</span> <span class="p">{</span><span class="s">&quot;_id&quot;</span> <span class="p">:</span> <span class="s">&quot;$address.city&quot;</span><span class="p">,</span> <span class="s">&quot;count&quot;</span> <span class="p">:</span> <span class="p">{</span><span class="s">&quot;$sum&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">}}},</span> 
                           <span class="p">{</span><span class="s">&quot;$match&quot;</span> <span class="p">:</span> <span class="p">{</span><span class="s">&quot;_id&quot;</span> <span class="p">:</span> <span class="p">{</span><span class="s">&quot;$ne&quot;</span> <span class="p">:</span> <span class="k">None</span><span class="p">}}},</span>
-                          <span class="p">{</span><span class="s">&quot;$sort&quot;</span> <span class="p">:</span> <span class="p">{</span><span class="s">&quot;count&quot;</span> <span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}}</span>
+                          <span class="p">{</span><span class="s">&quot;$sort&quot;</span> <span class="p">:</span> <span class="p">{</span><span class="s">&quot;count&quot;</span> <span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}},</span>
+                          <span class="p">{</span><span class="s">&quot;$limit&quot;</span> <span class="p">:</span> <span class="mi">5</span><span class="p">}</span>
                          <span class="p">])[</span><span class="s">&quot;result&quot;</span><span class="p">]</span>
 </pre></div>
 
@@ -1719,56 +1437,61 @@ file : json format file -&gt; jersey_city.osm.json</p>
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[53]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[66]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[{&apos;_id&apos;: &apos;New York&apos;, &apos;count&apos;: 3733},
- {&apos;_id&apos;: &apos;Brooklyn&apos;, &apos;count&apos;: 965},
+<pre>[{&apos;_id&apos;: &apos;New York City&apos;, &apos;count&apos;: 4998},
  {&apos;_id&apos;: &apos;Hoboken&apos;, &apos;count&apos;: 504},
- {&apos;_id&apos;: &apos;New York City&apos;, &apos;count&apos;: 127},
  {&apos;_id&apos;: &apos;Jersey City&apos;, &apos;count&apos;: 73},
- {&apos;_id&apos;: &apos;Astoria&apos;, &apos;count&apos;: 69},
- {&apos;_id&apos;: &apos;Long Island City&apos;, &apos;count&apos;: 34},
  {&apos;_id&apos;: &apos;Newark&apos;, &apos;count&apos;: 33},
- {&apos;_id&apos;: &apos;Sunnyside&apos;, &apos;count&apos;: 11},
- {&apos;_id&apos;: &apos;Orange&apos;, &apos;count&apos;: 11},
- {&apos;_id&apos;: &apos;Union City&apos;, &apos;count&apos;: 10},
- {&apos;_id&apos;: &apos;Elizabeth&apos;, &apos;count&apos;: 9},
- {&apos;_id&apos;: &apos;Staten Island&apos;, &apos;count&apos;: 8},
- {&apos;_id&apos;: &apos;Woodside&apos;, &apos;count&apos;: 8},
- {&apos;_id&apos;: &apos;brooklyn&apos;, &apos;count&apos;: 7},
- {&apos;_id&apos;: &apos;New York, NY&apos;, &apos;count&apos;: 6},
- {&apos;_id&apos;: &apos;Queens&apos;, &apos;count&apos;: 6},
- {&apos;_id&apos;: &apos;Weehawken&apos;, &apos;count&apos;: 6},
- {&apos;_id&apos;: &apos;Brooklyn, NY&apos;, &apos;count&apos;: 5},
- {&apos;_id&apos;: &apos;Ridgewood&apos;, &apos;count&apos;: 4},
- {&apos;_id&apos;: &apos;West New York&apos;, &apos;count&apos;: 4},
- {&apos;_id&apos;: &apos;Bloomfield&apos;, &apos;count&apos;: 3},
- {&apos;_id&apos;: &apos;NEW YORK CITY&apos;, &apos;count&apos;: 3},
- {&apos;_id&apos;: &apos;North Bergen&apos;, &apos;count&apos;: 2},
- {&apos;_id&apos;: &apos;North Arlington&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;newark&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;New York NY&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;Waterbury&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;Bowery Bay, NY&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;M&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;Roosevelt Island&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;new york&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;new York&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;Queens, NY&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;NY&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;Manhattan&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;Middle Village&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;Manhattan NYC&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;Brooklyn, New York&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;end of pier&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;Glendale&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;elizabeth&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;New York city&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;Blissville&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;NEWARK&apos;, &apos;count&apos;: 1},
- {&apos;_id&apos;: &apos;Kearny&apos;, &apos;count&apos;: 1}]</pre>
+ {&apos;_id&apos;: &apos;Orange&apos;, &apos;count&apos;: 11}]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Top-5-Amenities">Top 5 Amenities<a class="anchor-link" href="#Top-5-Amenities">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[51]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">db</span><span class="o">.</span><span class="n">jersey_city</span><span class="o">.</span><span class="n">aggregate</span><span class="p">([{</span><span class="s">&quot;$match&quot;</span> <span class="p">:</span> <span class="p">{</span><span class="s">&quot;amenity&quot;</span> <span class="p">:</span> <span class="p">{</span><span class="s">&quot;$exists&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">}}},</span>
+                          <span class="p">{</span><span class="s">&quot;$group&quot;</span> <span class="p">:</span> <span class="p">{</span><span class="s">&quot;_id&quot;</span> <span class="p">:</span> <span class="s">&quot;$amenity&quot;</span><span class="p">,</span> <span class="s">&quot;count&quot;</span> <span class="p">:</span> <span class="p">{</span><span class="s">&quot;$sum&quot;</span> <span class="p">:</span> <span class="mi">1</span> <span class="p">}}},</span>
+                          <span class="p">{</span><span class="s">&quot;$sort&quot;</span> <span class="p">:</span> <span class="p">{</span><span class="s">&quot;count&quot;</span> <span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}},</span>
+                          <span class="p">{</span><span class="s">&quot;$limit&quot;</span> <span class="p">:</span> <span class="mi">5</span><span class="p">}</span>
+    <span class="p">])[</span><span class="s">&quot;result&quot;</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[51]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[{&apos;_id&apos;: &apos;bicycle_parking&apos;, &apos;count&apos;: 3895},
+ {&apos;_id&apos;: &apos;restaurant&apos;, &apos;count&apos;: 1361},
+ {&apos;_id&apos;: &apos;place_of_worship&apos;, &apos;count&apos;: 1320},
+ {&apos;_id&apos;: &apos;school&apos;, &apos;count&apos;: 954},
+ {&apos;_id&apos;: &apos;parking&apos;, &apos;count&apos;: 915}]</pre>
 </div>
 
 </div>
@@ -1793,7 +1516,7 @@ I reserached more on this, looks like as part of NYC open data initiative last y
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[80]:</div>
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="n">db</span><span class="o">.</span><span class="n">jersey_city</span><span class="o">.</span><span class="n">find</span><span class="p">(</span> <span class="p">{</span><span class="s">&quot;created.user&quot;</span> <span class="p">:</span> <span class="p">{</span><span class="s">&quot;$regex&quot;</span> <span class="p">:</span> <span class="s">&quot;nycbuildings$&quot;</span> <span class="p">}</span> <span class="p">}</span> <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
@@ -1807,7 +1530,7 @@ I reserached more on this, looks like as part of NYC open data initiative last y
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[80]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[44]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1832,7 +1555,7 @@ I reserached more on this, looks like as part of NYC open data initiative last y
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[81]:</div>
+<div class="prompt input_prompt">In&nbsp;[45]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="n">db</span><span class="o">.</span><span class="n">jersey_city</span><span class="o">.</span><span class="n">find</span><span class="p">(</span> <span class="p">{</span><span class="s">&quot;created.user&quot;</span> <span class="p">:</span> <span class="p">{</span><span class="s">&quot;$regex&quot;</span> <span class="p">:</span> <span class="s">&quot;nycbuildings$&quot;</span> <span class="p">},</span> <span class="s">&quot;address&quot;</span> <span class="p">:</span> <span class="p">{</span><span class="s">&quot;$exists&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">}</span> <span class="p">}</span> <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
@@ -1846,7 +1569,7 @@ I reserached more on this, looks like as part of NYC open data initiative last y
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[81]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[45]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1876,7 +1599,7 @@ GNIS:ID suppose to map with OSM amenity tags, but no corresponding amenity tags 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[61]:</div>
+<div class="prompt input_prompt">In&nbsp;[46]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="c"># Way document from tiger</span>
@@ -1891,7 +1614,7 @@ GNIS:ID suppose to map with OSM amenity tags, but no corresponding amenity tags 
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[61]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[46]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1906,7 +1629,7 @@ GNIS:ID suppose to map with OSM amenity tags, but no corresponding amenity tags 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[59]:</div>
+<div class="prompt input_prompt">In&nbsp;[47]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="c"># node documents from gnis</span>
@@ -1921,7 +1644,7 @@ GNIS:ID suppose to map with OSM amenity tags, but no corresponding amenity tags 
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[59]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[47]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1945,7 +1668,7 @@ GNIS:ID suppose to map with OSM amenity tags, but no corresponding amenity tags 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[67]:</div>
+<div class="prompt input_prompt">In&nbsp;[48]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="n">db</span><span class="o">.</span><span class="n">jersey_city</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s">&quot;type&quot;</span> <span class="p">:</span> <span class="s">&quot;node&quot;</span><span class="p">,</span> <span class="s">&quot;address.street&quot;</span> <span class="p">:</span> <span class="p">{</span><span class="s">&quot;$exists&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">}})</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
@@ -1959,11 +1682,11 @@ GNIS:ID suppose to map with OSM amenity tags, but no corresponding amenity tags 
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[67]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[48]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>54045</pre>
+<pre>54044</pre>
 </div>
 
 </div>
@@ -1974,7 +1697,7 @@ GNIS:ID suppose to map with OSM amenity tags, but no corresponding amenity tags 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[83]:</div>
+<div class="prompt input_prompt">In&nbsp;[49]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="n">db</span><span class="o">.</span><span class="n">jersey_city</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s">&quot;type&quot;</span> <span class="p">:</span> <span class="s">&quot;way&quot;</span><span class="p">,</span> <span class="s">&quot;address.street&quot;</span> <span class="p">:</span> <span class="p">{</span><span class="s">&quot;$exists&quot;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">}})</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
@@ -1988,11 +1711,11 @@ GNIS:ID suppose to map with OSM amenity tags, but no corresponding amenity tags 
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[83]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[49]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>200005</pre>
+<pre>200000</pre>
 </div>
 
 </div>
@@ -2008,12 +1731,13 @@ GNIS:ID suppose to map with OSM amenity tags, but no corresponding amenity tags 
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Due to presence of nycbuildings, tiger and gnis incomplete data, my dataset is not giving much useful information.
 Below are important ideas which are important to make this OSM data more useful:</p>
-<ul>
-<li>Cleaning up invalid and outdated data from TIGER and GNIS.</li>
-<li>Mappings valid TIGER/GNIS data keys/attributes with OSM keys/attributes.</li>
-<li>Adding more information and attributes to nycbuildings data.</li>
-<li>Attracting more users and developers to OSM.</li>
-</ul>
+<h4 id="Standardrizing-City-Name-and-Zip-Codes">Standardrizing City Name and Zip Codes<a class="anchor-link" href="#Standardrizing-City-Name-and-Zip-Codes">&#182;</a></h4><p>We can easily standardrize city names and zip codes. An API can be created or current OSM API can be expanded to create a lookup based on co-ordinates which will return uniform city names and zip codes. This API can referred while sourcing data to OSM.
+Same, can be used to add city names and zip codes to the nodes missing these info.</p>
+<h4 id="Cleaning-up-outdated-and-invalid-TIGER-and-GNIS-data">Cleaning up outdated and invalid TIGER and GNIS data<a class="anchor-link" href="#Cleaning-up-outdated-and-invalid-TIGER-and-GNIS-data">&#182;</a></h4><p>TIGER and GNIS data was loaded few years back. Many of that data needs cleaning. Outdated data needs to be indentifer and cleaned. We can use Google MAP API to cross reference OSM data and clean it whereever possible.</p>
+<h4 id="nycbuildings-Data-can-be-leveraged">nycbuildings Data can be leveraged<a class="anchor-link" href="#nycbuildings-Data-can-be-leveraged">&#182;</a></h4><p>For my selected map area, nycbuildings data seems latest. However, it still needs more attributes and information.
+A game or competition can be started using social network, where players can act as explorers. They will be provided with co-ordinates and they need to find informations regarding that co-ordinates. Player can get points based on that. Geo-tagging and hash-tagging can be leveraged for that.</p>
+<h4 id="More-crowd-sourced-apps">More crowd-sourced apps<a class="anchor-link" href="#More-crowd-sourced-apps">&#182;</a></h4><p>Many more crowd-sourced apps can be developed using OSM data, which in turn will help OSM data quality also.
+We can create social networking street parking app, where users can geo-tag different street parking all over the city. Once data is more mature, it can be developed to be more advance app which can provide real time parking spots update.</p>
 <h3 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">&#182;</a></h3><p>Jersey City and the neighbouring areas data needs cleaning and mapping. NYCBuidlings data has created a nice skeleton, which can be leveraged to make this data more useful.
 In current state, it is difficult to gain any intelligence from this data.</p>
 
