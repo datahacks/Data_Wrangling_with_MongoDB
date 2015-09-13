@@ -575,7 +575,7 @@ By resolving these inconsistencies I will make my data more uniform.</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Non-Uniformity-in-City-Names">Non-Uniformity in City Names<a class="anchor-link" href="#Non-Uniformity-in-City-Names">&#182;</a></h3><p>Due to crowd-sourced entries, city names in map data is not conistent. NYC is consist of many big boroughs due to that many places I noticed city name is replaces with neighbourhood names and borough names. Some places city names are misspelled or abbreviated. During my initial load to MongoDB I found below examples:</p>
+<h3 id="Non-Uniformity-in-City-Names">Non-Uniformity in City Names<a class="anchor-link" href="#Non-Uniformity-in-City-Names">&#182;</a></h3><p>Due to crowd-sourced entries, city names in map data is not conistent. NYC is consist of many big boroughs due to that many places I noticed city name is replaced with neighbourhood names and borough names. Some places city names are misspelled or abbreviated. During my initial load to MongoDB I found below examples:</p>
 <p>{'Manhattan NYC', 'Brooklyn, New York', 'new York', 'Queens, NY', 'NY', 'Manhattan', 'New York NY', 'Waterbury', 'Bowery Bay',
  'NEW YORK CITY'}
  Above are only few samples, there are few more . Now, I will reload the data and before loading I will cleanup city names to make it inconsistent as possible.</p>
@@ -1738,8 +1738,10 @@ Same, can be used to add city names and zip codes to the nodes missing these inf
 A game or competition can be started using social network, where players can act as explorers. They will be provided with co-ordinates and they need to find informations regarding that co-ordinates. Player can get points based on that. Geo-tagging and hash-tagging can be leveraged for that.</p>
 <h4 id="More-crowd-sourced-apps">More crowd-sourced apps<a class="anchor-link" href="#More-crowd-sourced-apps">&#182;</a></h4><p>Many more crowd-sourced apps can be developed using OSM data, which in turn will help OSM data quality also.
 We can create social networking street parking app, where users can geo-tag different street parking all over the city. Once data is more mature, it can be developed to be more advance app which can provide real time parking spots update.</p>
+<h4 id="Challenges-and-Potential-Issues">Challenges and Potential Issues<a class="anchor-link" href="#Challenges-and-Potential-Issues">&#182;</a></h4><p>One of the biggest challenge in implementing these ideas and OSM data is quality of data. With idea of gamification and competetion we can attract users and developers to create data. Even with all cleaning we can perform, still data is crowd sourced. And this data still can have human errors. It can be human biased and misleading. Maintaing authencity, correctness of data can be very time consuming and tedious.</p>
+<p>Parking app and more such apps can only be developed using this data, once its more mature and complete. The completeness and maturity of data can take lot of time and effort, which is high cost in app developement world. Using alternatives like Google Map API, Bing map, Leaflet can provide more complete data.</p>
 <h3 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">&#182;</a></h3><p>Jersey City and the neighbouring areas data needs cleaning and mapping. NYCBuidlings data has created a nice skeleton, which can be leveraged to make this data more useful.
-In current state, it is difficult to gain any intelligence from this data.</p>
+In current state, it is difficult to gain much benefit from this map data.</p>
 
 </div>
 </div>
